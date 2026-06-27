@@ -1,0 +1,12 @@
+Source: nvidia-driver-manager
+Section: admin
+Priority: optional
+Maintainer: Brian Hallett <wahoo8@live.com>
+Build-Depends: debhelper-compat (= 13)
+Standards-Version: 4.7.2
+Rules-Requires-Root: no
+
+Package: nvidia-driver-manager
+Architecture: all
+Depends: ${misc:Depends}
+Description: NVidia Driver automatic updates.

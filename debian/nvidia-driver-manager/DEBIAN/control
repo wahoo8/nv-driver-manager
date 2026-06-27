@@ -1,0 +1,8 @@
+Package: nvidia-driver-manager
+Version: 0.1.0
+Architecture: all
+Maintainer: Brian Hallett <your-email@example.com>
+Installed-Size: 7
+Section: admin
+Priority: optional
+Description: NVidia Driver automatic updates.

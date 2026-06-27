@@ -1,0 +1,8 @@
+nvidia-driver-manager (0.1.0) unstable; urgency=medium
+
+  * Initial release.
+  * Repository skeleton.
+  * Debian package framework.
+
+ -- Brian Hallett <wahoo8@live.com>  Sat, 27 Jun 2026 12:00:00 +0000
+ 
