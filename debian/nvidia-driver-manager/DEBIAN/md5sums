@@ -1,4 +1,6 @@
 c7666de3ada242f3d00d3c32a165b1f0  usr/bin/nvidia-driver-manager
+69821c7e14ce67302f25758a6ca3ca51  usr/lib/systemd/system/nvidia-driver-manager.service
+9125b82306f4ac89912fee8caee61442  usr/lib/systemd/system/nvidia-driver-manager.timer
 34b2a6c85eef6028e605a34276aead38  usr/libexec/nvidia-driver-manager/config.sh
 016c0d461edc7b8bb0b617625587a785  usr/libexec/nvidia-driver-manager/download.sh
 6e09faafd29da227886d1e7fc7882ad5  usr/libexec/nvidia-driver-manager/logging.sh
