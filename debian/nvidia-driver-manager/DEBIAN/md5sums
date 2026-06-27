@@ -1,1 +1,6 @@
-92c8dac89d5dd5ed48e4ae60ec911074  usr/share/doc/nvidia-driver-manager/changelog.gz
+c7666de3ada242f3d00d3c32a165b1f0  usr/bin/nvidia-driver-manager
+34b2a6c85eef6028e605a34276aead38  usr/libexec/nvidia-driver-manager/config.sh
+016c0d461edc7b8bb0b617625587a785  usr/libexec/nvidia-driver-manager/download.sh
+6e09faafd29da227886d1e7fc7882ad5  usr/libexec/nvidia-driver-manager/logging.sh
+016c0d461edc7b8bb0b617625587a785  usr/libexec/nvidia-driver-manager/parser.sh
+42e9b1aab423a9cbf1b7898e1e31d72c  usr/share/doc/nvidia-driver-manager/changelog.gz

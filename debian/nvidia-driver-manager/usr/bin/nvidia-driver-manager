@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+
+set -Eeuo pipefail
+IFS=$'\n\t'
+
+LIB_DIR="${NDM_LIB_DIR:-/usr/libexec/nvidia-driver-manager}"
+
+if [[ -d "$(dirname "$0")/../lib" ]]; then
+    LIB_DIR="$(cd "$(dirname "$0")/../lib" && pwd)"
+fi
+
+# shellcheck disable=SC1091
+source "$LIB_DIR/config.sh"
+
+# shellcheck disable=SC1091
+source "$LIB_DIR/logging.sh"
+
+load_config
+ensure_runtime_dirs
+
+case "${1:-help}" in
+    version|--version|-v)
+        printf '%s %s\n' "$NDM_NAME" "$NDM_VERSION"
+        ;;
+    help|--help|-h)
+        cat <<EOF
+NVIDIA Driver Manager
+
+Usage:
+  nvidia-driver-manager <command>
+
+Commands:
+  check       Check for NVIDIA driver updates
+  download    Download latest NVIDIA driver
+  install     Install downloaded NVIDIA driver
+  health      Run health checks
+  diagnose    Generate diagnostic report
+  report      Show last installation report
+  version     Show version
+  help        Show this help
+EOF
+        ;;
+    *)
+        fatal "Command not implemented yet: $1"
+        ;;
+esac

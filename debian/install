@@ -1,0 +1,2 @@
+src/bin/nvidia-driver-manager usr/bin/
+src/lib/*.sh usr/libexec/nvidia-driver-manager/
