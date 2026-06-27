@@ -5,8 +5,10 @@ IFS=$'\n\t'
 
 LIB_DIR="${NDM_LIB_DIR:-/usr/libexec/nvidia-driver-manager}"
 
-if [[ -d "$(dirname "$0")/../lib" ]]; then
-    LIB_DIR="$(cd "$(dirname "$0")/../lib" && pwd)"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+if [[ -f "$SCRIPT_DIR/../lib/config.sh" ]]; then
+    LIB_DIR="$(cd "$SCRIPT_DIR/../lib" && pwd)"
 fi
 
 # shellcheck disable=SC1091
