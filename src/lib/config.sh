@@ -15,7 +15,7 @@ NDM_DOWNLOAD_BASE_URL="${NDM_DOWNLOAD_BASE_URL:-https://us.download.nvidia.com/X
 NDM_KEEP_INSTALLERS="${NDM_KEEP_INSTALLERS:-2}"
 NDM_DEBUG="${NDM_DEBUG:-0}"
 
-load_config()
+ndm_load_config()
 {
     if [[ -r "$NDM_CONFIG_FILE" ]]; then
         # shellcheck disable=SC1090
@@ -23,7 +23,7 @@ load_config()
     fi
 }
 
-ensure_runtime_dirs()
+ndm_ensure_runtime_dirs()
 {
     mkdir -p "$NDM_CACHE_DIR"
 }

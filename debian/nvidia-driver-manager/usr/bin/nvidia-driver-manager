@@ -4,28 +4,25 @@ set -Eeuo pipefail
 IFS=$'\n\t'
 
 LIB_DIR="${NDM_LIB_DIR:-/usr/libexec/nvidia-driver-manager}"
-
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+DEV_LIB_DIR=""
 
-if [[ -f "$SCRIPT_DIR/../lib/config.sh" ]]; then
-    LIB_DIR="$(cd "$SCRIPT_DIR/../lib" && pwd)"
+if [[ -d "$SCRIPT_DIR/../lib" ]]; then
+    DEV_LIB_DIR="$(cd "$SCRIPT_DIR/../lib" && pwd)"
+fi
+
+if [[ -n "$DEV_LIB_DIR" && -f "$DEV_LIB_DIR/bootstrap.sh" ]]; then
+    LIB_DIR="$DEV_LIB_DIR"
 fi
 
 # shellcheck disable=SC1091
-source "$LIB_DIR/config.sh"
+source "$LIB_DIR/bootstrap.sh"
 
-# shellcheck disable=SC1091
-source "$LIB_DIR/logging.sh"
+ndm_bootstrap
 
-load_config
-ensure_runtime_dirs
-
-case "${1:-help}" in
-    version|--version|-v)
-        printf '%s %s\n' "$NDM_NAME" "$NDM_VERSION"
-        ;;
-    help|--help|-h)
-        cat <<EOF
+show_help()
+{
+    cat <<EOF
 NVIDIA Driver Manager
 
 Usage:
@@ -41,8 +38,19 @@ Commands:
   version     Show version
   help        Show this help
 EOF
+}
+
+case "${1:-help}" in
+    version|--version|-v)
+        printf '%s %s\n' "$NDM_NAME" "$NDM_VERSION"
+        ;;
+    help|--help|-h)
+        show_help
+        ;;
+    check|download|install|health|diagnose|report)
+        ndm_fatal "Command not implemented yet: $1"
         ;;
     *)
-        fatal "Command not implemented yet: $1"
+        ndm_fatal "Unknown command: $1"
         ;;
 esac

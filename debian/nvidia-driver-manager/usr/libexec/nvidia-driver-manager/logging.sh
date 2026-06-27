@@ -1,49 +1,49 @@
 #!/usr/bin/env bash
 # shellcheck shell=bash
 
-_log_timestamp()
+_ndm_log_timestamp()
 {
     date '+%Y-%m-%d %H:%M:%S'
 }
 
-_log_write()
+_ndm_log_write()
 {
     local level="$1"
     local message="$2"
     local logfile="${NDM_LOG_FILE:-${NDM_LOG_DIR:-/var/log/nvidia-driver-manager}/updater.log}"
 
-    printf '[%s] [%s] %s\n' "$(_log_timestamp)" "$level" "$message"
+    printf '[%s] [%s] %s\n' "$(_ndm_log_timestamp)" "$level" "$message"
 
     if [[ ${EUID:-$(id -u)} -eq 0 ]]; then
         mkdir -p "$(dirname "$logfile")"
-        printf '[%s] [%s] %s\n' "$(_log_timestamp)" "$level" "$message" >> "$logfile"
+        printf '[%s] [%s] %s\n' "$(_ndm_log_timestamp)" "$level" "$message" >> "$logfile"
     fi
 }
 
-log_info()
+ndm_log_info()
 {
-    _log_write "INFO" "$*"
+    _ndm_log_write "INFO" "$*"
 }
 
-log_warn()
+ndm_log_warn()
 {
-    _log_write "WARN" "$*" >&2
+    _ndm_log_write "WARN" "$*" >&2
 }
 
-log_error()
+ndm_log_error()
 {
-    _log_write "ERROR" "$*" >&2
+    _ndm_log_write "ERROR" "$*" >&2
 }
 
-log_debug()
+ndm_log_debug()
 {
     if [[ "${NDM_DEBUG:-0}" == "1" ]]; then
-        _log_write "DEBUG" "$*"
+        _ndm_log_write "DEBUG" "$*"
     fi
 }
 
-fatal()
+ndm_fatal()
 {
-    log_error "$*"
+    ndm_log_error "$*"
     exit 1
 }
