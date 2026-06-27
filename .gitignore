@@ -1,0 +1,41 @@
+# Build artifacts
+*.deb
+*.build
+*.buildinfo
+*.changes
+*.dsc
+*.tar.*
+*.orig
+*.xz
+
+# Debian
+debian/.debhelper/
+debian/files
+debian/tmp/
+debian/*.substvars
+
+# Editor
+*~
+*.swp
+*.swo
+
+# Logs
+*.log
+
+# Test output
+tests/output/
+
+# ShellCheck
+.shellcheckrc.local
+
+# VS Code
+.vscode/
+
+# JetBrains
+.idea/
+
+# Python (future test tools)
+__pycache__/
+
+# Temporary
+tmp/
