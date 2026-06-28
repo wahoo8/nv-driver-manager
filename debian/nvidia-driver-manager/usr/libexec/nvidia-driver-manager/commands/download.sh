@@ -1,14 +1,10 @@
 #!/usr/bin/env bash
 # shellcheck shell=bash
 
-# shellcheck disable=SC1091
-source "$NDM_LIB_DIR/cache.sh"
-# shellcheck disable=SC1091
-source "$NDM_LIB_DIR/metadata.sh"
-# shellcheck disable=SC1091
-source "$NDM_LIB_DIR/network.sh"
-# shellcheck disable=SC1091
-source "$NDM_LIB_DIR/version.sh"
+ndm_require_lib cache
+ndm_require_lib metadata
+ndm_require_lib network
+ndm_require_lib version
 
 ndm_cache_init
 ndm_load_driver_metadata

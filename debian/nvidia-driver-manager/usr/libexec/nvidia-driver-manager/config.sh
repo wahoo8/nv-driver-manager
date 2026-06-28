@@ -3,7 +3,7 @@
 # shellcheck disable=SC2034
 
 NDM_NAME="nvidia-driver-manager"
-NDM_VERSION="0.1.0"
+NDM_VERSION="0.7.0"
 
 NDM_CONFIG_FILE="${NDM_CONFIG_FILE:-/etc/nvidia-driver-manager.conf}"
 NDM_LOG_DIR="${NDM_LOG_DIR:-/var/log/nvidia-driver-manager}"
