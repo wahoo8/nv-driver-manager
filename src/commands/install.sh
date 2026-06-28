@@ -77,7 +77,7 @@ if ! ndm_gui_question "NVIDIA Driver Manager" "$MESSAGE"; then
     exit 0
 fi
 
-HELPER="/usr/libexec/nvidia-driver-manager/tty-install.sh"
+HELPER="/usr/libexec/nvidia-driver-manager/nvinstall.sh"
 
 if [[ ! -x "$HELPER" ]]; then
     ndm_fatal "Installation helper not found: $HELPER"
