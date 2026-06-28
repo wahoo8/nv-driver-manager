@@ -1,5 +1,6 @@
 src/bin/nvidia-driver-manager usr/bin/
 src/lib/*.sh usr/libexec/nvidia-driver-manager/
+src/commands/*.sh usr/libexec/nvidia-driver-manager/commands/
 src/config/nvidia-driver-manager.conf etc/
 src/systemd/nvidia-driver-manager.service usr/lib/systemd/system/
 src/systemd/nvidia-driver-manager.timer usr/lib/systemd/system/
