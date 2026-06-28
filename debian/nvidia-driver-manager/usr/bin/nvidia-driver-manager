@@ -20,6 +20,11 @@ source "$LIB_DIR/bootstrap.sh"
 
 ndm_bootstrap
 
+# shellcheck disable=SC1091
+source "$NDM_LIB_DIR/cache.sh"
+
+ndm_cache_init
+
 NDM_COMMAND_DIR="${NDM_COMMAND_DIR:-$NDM_LIB_DIR/commands}"
 
 if [[ -d "$SCRIPT_DIR/../commands" ]]; then

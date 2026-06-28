@@ -2,13 +2,17 @@
 # shellcheck shell=bash
 
 # shellcheck disable=SC1091
+source "$NDM_LIB_DIR/cache.sh"
+# shellcheck disable=SC1091
 source "$NDM_LIB_DIR/network.sh"
 # shellcheck disable=SC1091
 source "$NDM_LIB_DIR/parser.sh"
 # shellcheck disable=SC1091
 source "$NDM_LIB_DIR/version.sh"
 
-PAGE_CACHE="$NDM_CACHE_DIR/nvidia-unix.html"
+ndm_cache_init
+
+PAGE_CACHE="$(ndm_cache_page_path "nvidia-unix.html")"
 
 ndm_log_info "Checking NVIDIA Production Branch driver version."
 
