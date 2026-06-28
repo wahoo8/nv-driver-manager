@@ -35,6 +35,7 @@ NVIDIA Driver Manager $NDM_VERSION
 
 Installed Driver : $INSTALLED_VERSION
 Latest Driver    : $LATEST_VERSION
+Download URL     : $NDM_DRIVER_DOWNLOAD_URL
 
 Status           : $STATUS
 EOF
