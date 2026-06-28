@@ -2,7 +2,6 @@
 # shellcheck shell=bash
 
 ndm_require_lib gui
-ndm_require_lib health
 ndm_require_lib installer
 ndm_require_lib metadata
 ndm_require_lib cache
@@ -12,12 +11,10 @@ ndm_cache_init
 
 printf 'Preparing NVIDIA driver installation...\n\n'
 
-# Refresh metadata
 ndm_load_driver_metadata
 
 LATEST_VERSION="$NDM_DRIVER_VERSION"
 
-# Verify installer exists
 INSTALLED_VERSION="$(ndm_get_installed_version)" || \
     ndm_fatal "Unable to determine installed NVIDIA driver version."
 
@@ -36,7 +33,7 @@ fi
 
 INSTALLER_PATH="$(ndm_installer_require_for_version "$LATEST_VERSION")"
 
-MESSAGE=$(cat <<EOF
+MESSAGE="$(cat <<EOF
 NVIDIA Driver Version: $LATEST_VERSION
 
 Installer:
@@ -46,16 +43,25 @@ The installer is ready.
 
 Continue with installation?
 EOF
-)
+)"
 
 if ! ndm_gui_question "NVIDIA Driver Manager" "$MESSAGE"; then
     ndm_log_info "Installation cancelled by user."
     exit 0
 fi
 
-printf "\n"
-printf "Pre-flight checks completed successfully.\n"
-printf "Installer path:\n"
-printf "  %s\n" "$INSTALLER_PATH"
-printf "\n"
-printf "The actual installation phase will be implemented next.\n"
+HELPER="/usr/libexec/nvidia-driver-manager/nvinstall.sh"
+
+if [[ ! -x "$HELPER" ]]; then
+    ndm_fatal "Installation helper not found: $HELPER"
+fi
+
+ndm_log_info "Starting privileged installation helper."
+
+if ! pkexec "$HELPER" "$INSTALLER_PATH"; then
+    ndm_fatal "Installation helper failed."
+fi
+
+ndm_gui_info \
+    "NVIDIA Driver Manager" \
+    "Installation helper completed successfully."

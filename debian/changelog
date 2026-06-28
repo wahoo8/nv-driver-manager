@@ -1,4 +1,4 @@
-nvidia-driver-manager (0.1.0) unstable; urgency=medium
+nvidia-driver-manager (0.7.0) unstable; urgency=medium
 
   * Initial release.
   * Repository skeleton.
