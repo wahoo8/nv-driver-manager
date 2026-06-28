@@ -2,7 +2,7 @@ Package: nvidia-driver-manager
 Version: 0.1.0
 Architecture: all
 Maintainer: Brian Hallett <wahoo8@live.com>
-Installed-Size: 33
+Installed-Size: 40
 Section: admin
 Priority: optional
 Description: NVidia Driver automatic updates.

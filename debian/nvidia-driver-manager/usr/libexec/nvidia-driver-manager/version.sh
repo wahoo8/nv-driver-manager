@@ -76,3 +76,15 @@ ndm_version_is_newer()
         gt \
         "$(ndm_normalize_version "$current")"
 }
+
+ndm_version_status()
+{
+    local installed="$1"
+    local latest="$2"
+
+    if ndm_version_is_newer "$latest" "$installed"; then
+        printf 'Update available\n'
+    else
+        printf 'Up to date\n'
+    fi
+}
