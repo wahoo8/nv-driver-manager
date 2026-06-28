@@ -3,9 +3,9 @@ eb2fa92614222d210da4daef29fbde99  usr/bin/nvidia-driver-manager
 9125b82306f4ac89912fee8caee61442  usr/lib/systemd/system/nvidia-driver-manager.timer
 939f257d33f8fb8ff1374931ba16402b  usr/libexec/nvidia-driver-manager/bootstrap.sh
 bafe605d57ef40a42912440f88276ab7  usr/libexec/nvidia-driver-manager/cache.sh
-55b62a6ec74890365626f8b449620e7a  usr/libexec/nvidia-driver-manager/commands/check.sh
+0618540a08ee15562dfd7f73eae4335b  usr/libexec/nvidia-driver-manager/commands/check.sh
 ff76f6b46bd3405efa3d418e66f3323d  usr/libexec/nvidia-driver-manager/commands/diagnose.sh
-5c3483e868ce84c2bf2c37ab597285d4  usr/libexec/nvidia-driver-manager/commands/download.sh
+d353e0473b9a9d1a2979eb6997a4c846  usr/libexec/nvidia-driver-manager/commands/download.sh
 d705e8c659ee24d9d11ff92523f0339a  usr/libexec/nvidia-driver-manager/commands/health.sh
 7f376954feb03a5a71df944e99b199bd  usr/libexec/nvidia-driver-manager/commands/install.sh
 379ecba62bfee94753682aafeffa4da2  usr/libexec/nvidia-driver-manager/commands/installed-version.sh
@@ -14,7 +14,7 @@ e1c3faa217bcf7a8daa84f9d9dcd2f08  usr/libexec/nvidia-driver-manager/config.sh
 016c0d461edc7b8bb0b617625587a785  usr/libexec/nvidia-driver-manager/download.sh
 cc6a46aca6e0f7023e6a2f5145625e66  usr/libexec/nvidia-driver-manager/errors.sh
 cebd433ff48197be95ae12472b6f896c  usr/libexec/nvidia-driver-manager/logging.sh
-27c57a96657e73037247812ab4a1525b  usr/libexec/nvidia-driver-manager/network.sh
-af7d726a919142ba221bbae26749c755  usr/libexec/nvidia-driver-manager/parser.sh
+8e5003fa406d23b463d7a733859c778f  usr/libexec/nvidia-driver-manager/network.sh
+85bce59b29687fb67ef929f8b2345a1f  usr/libexec/nvidia-driver-manager/parser.sh
 349284a34f40795ecc6650caf52777bd  usr/libexec/nvidia-driver-manager/version.sh
 42e9b1aab423a9cbf1b7898e1e31d72c  usr/share/doc/nvidia-driver-manager/changelog.gz

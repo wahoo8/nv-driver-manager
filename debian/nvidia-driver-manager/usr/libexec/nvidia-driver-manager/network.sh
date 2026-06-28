@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # shellcheck shell=bash
 
-ndm_fetch_url()
+ndm_download_file()
 {
     local url="$1"
     local output="$2"

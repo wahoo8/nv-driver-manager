@@ -16,12 +16,13 @@ PAGE_CACHE="$(ndm_cache_page_path "nvidia-unix.html")"
 
 ndm_log_info "Checking NVIDIA Production Branch driver version."
 
-ndm_fetch_url "$NDM_NVIDIA_UNIX_URL" "$PAGE_CACHE"
+ndm_download_file "$NDM_NVIDIA_UNIX_URL" "$PAGE_CACHE"
 
 INSTALLED_VERSION="$(ndm_get_installed_version)" || \
     ndm_fatal "Unable to determine installed NVIDIA driver version."
 
-LATEST_VERSION="$(ndm_parse_latest_production_version "$PAGE_CACHE")"
+ndm_parse_driver_metadata "$PAGE_CACHE"
+LATEST_VERSION="$NDM_DRIVER_VERSION"
 
 if [[ -z "$LATEST_VERSION" ]]; then
     ndm_fatal "Unable to determine latest NVIDIA Production Branch version."
@@ -34,6 +35,7 @@ NVIDIA Driver Manager $NDM_VERSION
 
 Installed Driver : $INSTALLED_VERSION
 Latest Driver    : $LATEST_VERSION
+Download URL     : $NDM_DRIVER_DOWNLOAD_URL
 
 Status           : $STATUS
 EOF
