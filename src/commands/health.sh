@@ -1,12 +1,9 @@
 #!/usr/bin/env bash
 # shellcheck shell=bash
 
-# shellcheck disable=SC1091
-source "$NDM_LIB_DIR/system.sh"
-# shellcheck disable=SC1091
-source "$NDM_LIB_DIR/version.sh"
-# shellcheck disable=SC1091
-source "$NDM_LIB_DIR/health.sh"
+ndm_require_lib system
+ndm_require_lib version
+ndm_require_lib health
 
 printf 'NVIDIA Driver Manager Health Report\n\n'
 

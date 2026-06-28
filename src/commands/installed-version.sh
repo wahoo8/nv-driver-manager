@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
 # shellcheck shell=bash
 
-# shellcheck disable=SC1091
-source "$NDM_LIB_DIR/version.sh"
+ndm_require_lib version
 
 ndm_get_installed_version
 

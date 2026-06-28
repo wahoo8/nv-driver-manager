@@ -31,3 +31,17 @@ fi
     ndm_load_config
     ndm_ensure_runtime_dirs
 }
+
+ndm_require_lib()
+{
+    local library_name="$1"
+    local library_path="$NDM_LIB_DIR/${library_name}.sh"
+
+    if [[ ! -r "$library_path" ]]; then
+        printf 'Required library not found: %s\n' "$library_path" >&2
+        exit 1
+    fi
+
+    # shellcheck disable=SC1090
+    source "$library_path"
+}
