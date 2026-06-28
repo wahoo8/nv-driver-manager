@@ -20,6 +20,9 @@ source "$LIB_DIR/bootstrap.sh"
 
 ndm_bootstrap
 
+# shellcheck disable=SC1091
+source "$NDM_LIB_DIR/version.sh"
+
 show_help()
 {
     cat <<EOF
@@ -37,6 +40,8 @@ Commands:
   report      Show last installation report
   version     Show version
   help        Show this help
+  installed-version
+              Show installed NVIDIA driver version
 EOF
 }
 
@@ -50,7 +55,11 @@ case "${1:-help}" in
     check|download|install|health|diagnose|report)
         ndm_fatal "Command not implemented yet: $1"
         ;;
+    installed-version)
+        ndm_get_installed_version
+        ;;
     *)
         ndm_fatal "Unknown command: $1"
         ;;
+
 esac
