@@ -47,6 +47,7 @@ INSTALL_ARGS=(
     --allow-installation-with-running-driver
     "--kernel-module-type=$KERNEL_MODULE_TYPE"
     --rebuild-initramfs
+    --no-x-check
 )
 
 if [[ -f "$MOK_KEY" && -f "$MOK_CERT" ]]; then
