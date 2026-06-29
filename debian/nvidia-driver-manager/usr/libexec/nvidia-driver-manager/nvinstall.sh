@@ -4,9 +4,11 @@ set -Eeuo pipefail
 IFS=$'\n\t'
 
 CONFIG_FILE="${NDM_CONFIG_FILE:-/etc/nvidia-driver-manager.conf}"
+LIB_DIR="/usr/libexec/nvidia-driver-manager"
 LOG_DIR="/var/log/nvidia-driver-manager"
 LOG_FILE="${LOG_DIR}/install.log"
 HISTORY_FILE="${LOG_DIR}/history.log"
+REPORT_FILE="${LOG_DIR}/install-report.txt"
 
 mkdir -p "$LOG_DIR"
 : > "$LOG_FILE"
@@ -30,6 +32,16 @@ ndm_fail()
     exit 1
 }
 
+ndm_driver_version()
+{
+    if command -v nvidia-smi >/dev/null 2>&1; then
+        nvidia-smi --query-gpu=driver_version --format=csv,noheader 2>/dev/null |
+            head -n 1
+    else
+        printf 'unknown\n'
+    fi
+}
+
 if [[ "${EUID:-$(id -u)}" -ne 0 ]]; then
     ndm_fail "nvinstall.sh must run as root."
 fi
@@ -44,6 +56,23 @@ else
     ndm_log "Configuration file not found, using defaults: $CONFIG_FILE"
 fi
 
+if [[ -r "$LIB_DIR/report.sh" ]]; then
+    # shellcheck disable=SC1091
+    source "$LIB_DIR/report.sh"
+else
+    ndm_fail "Required report library not found: $LIB_DIR/report.sh"
+fi
+
+if [[ -r "$LIB_DIR/dkms.sh" ]]; then
+    # shellcheck disable=SC1091
+    source "$LIB_DIR/dkms.sh"
+fi
+
+if [[ -r "$LIB_DIR/system.sh" ]]; then
+    # shellcheck disable=SC1091
+    source "$LIB_DIR/system.sh"
+fi
+
 INSTALLER_PATH="${1:-}"
 
 if [[ -z "$INSTALLER_PATH" ]]; then
@@ -55,6 +84,8 @@ if [[ ! -f "$INSTALLER_PATH" ]]; then
 fi
 
 chmod 0755 "$INSTALLER_PATH"
+
+PREVIOUS_VERSION="$(ndm_driver_version)"
 
 MOK_KEY="${NDM_MOK_KEY:-/var/lib/dkms/MOK.key}"
 MOK_CERT="${NDM_MOK_CERT:-/var/lib/dkms/MOK.der}"
@@ -80,6 +111,7 @@ else
     ndm_log "MOK signing files not found; installer may prompt or fail if Secure Boot is enabled."
 fi
 
+ndm_log "Previous NVIDIA version: $PREVIOUS_VERSION"
 ndm_log "Installer: $INSTALLER_PATH"
 ndm_log "Kernel module type: $KERNEL_MODULE_TYPE"
 ndm_log "Installer arguments: ${INSTALL_ARGS[*]}"
@@ -105,11 +137,16 @@ else
 fi
 
 ndm_log "Launching NVIDIA installer."
-bash "$INSTALLER_PATH" "${INSTALL_ARGS[@]}"
-INSTALL_RESULT=$?
+if ! bash "$INSTALLER_PATH" "${INSTALL_ARGS[@]}"; then
+    ndm_write_install_report \
+        "$PREVIOUS_VERSION" \
+        "$(ndm_driver_version)" \
+        "Installation failed." \
+        "See /var/log/nvidia-installer.log and $LOG_FILE." \
+        "$REPORT_FILE" \
+        || true
 
-if (( INSTALL_RESULT != 0 )); then
-    ndm_fail "NVIDIA installer exited with status $INSTALL_RESULT."
+    ndm_fail "NVIDIA installer failed."
 fi
 
 ndm_log "NVIDIA installer completed successfully."
@@ -138,10 +175,28 @@ ndm_log "Updating initramfs for all kernels."
 if update-initramfs -u -k all >> "$LOG_FILE" 2>&1; then
     ndm_log "initramfs update completed successfully."
 else
+    ndm_write_install_report \
+        "$PREVIOUS_VERSION" \
+        "$(ndm_driver_version)" \
+        "Installation failed during initramfs update." \
+        "See $LOG_FILE." \
+        "$REPORT_FILE" \
+        || true
+
     ndm_fail "initramfs update failed."
 fi
 
+INSTALLED_VERSION="$(ndm_driver_version)"
+
+ndm_write_install_report \
+    "$PREVIOUS_VERSION" \
+    "$INSTALLED_VERSION" \
+    "Installation completed successfully." \
+    "Reboot required." \
+    "$REPORT_FILE"
+
+ndm_log "Installation report written: $REPORT_FILE"
 ndm_log "Installation helper completed successfully."
-ndm_history "SUCCESS | installer=$INSTALLER_PATH"
+ndm_history "SUCCESS | $PREVIOUS_VERSION -> $INSTALLED_VERSION | installer=$INSTALLER_PATH"
 
 exit 0

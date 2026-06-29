@@ -37,56 +37,86 @@ Reboot: strongly recommended
 EOF
 }
 
+ndm_format_install_report()
+{
+    local previous_version="${1:-unknown}"
+    local installed_version="${2:-unknown}"
+    local result="${3:-Installation completed successfully.}"
+    local reboot="${4:-Reboot required.}"
+    local report_date="${5:-$(date '+%Y-%m-%d %H:%M:%S %Z')}"
+    local mok_key="${NDM_MOK_KEY:-/var/lib/dkms/MOK.key}"
+    local mok_cert="${NDM_MOK_CERT:-/var/lib/dkms/MOK.der}"
+
+    printf '%s\n' 'NVIDIA Driver Manager Installation Report'
+    printf '%s\n' '========================================='
+    printf '\n'
+    printf 'Date:              %s\n' "$report_date"
+    printf 'Previous Driver:   %s\n' "$previous_version"
+    printf 'Installed Driver:  %s\n' "$installed_version"
+    printf '\n'
+
+    printf '%s\n' 'DKMS'
+    printf '%s\n' '----'
+
+    if ndm_dkms_nvidia_registered; then
+        ndm_dkms_nvidia_status
+    else
+        printf '%s\n' 'No NVIDIA DKMS registrations found.'
+    fi
+
+    printf '\n'
+    printf '%s\n' 'Secure Boot'
+    printf '%s\n' '-----------'
+
+    if [[ -f "$mok_key" && -f "$mok_cert" ]]; then
+        printf '%-18s %s\n' 'MOK signing files:' 'found'
+        printf '%-18s %s\n' 'MOK key:' "$mok_key"
+        printf '%-18s %s\n' 'MOK cert:' "$mok_cert"
+    else
+        printf '%-18s %s\n' 'MOK signing files:' 'missing'
+    fi
+
+    printf '\n'
+    printf '%s\n' 'Initramfs'
+    printf '%s\n' '---------'
+    printf '%-18s %s\n' 'Updated:' 'Yes'
+
+    printf '\n'
+    printf '%s\n' 'Result'
+    printf '%s\n' '------'
+    printf '%s\n' "$result"
+    printf '%s\n' "$reboot"
+}
+
 ndm_write_install_report()
 {
     local previous_version="${1:-unknown}"
-    local installed_version=""
+    local installed_version="${2:-unknown}"
+    local result="${3:-Installation completed successfully.}"
+    local reboot="${4:-Reboot required.}"
+    local report_file="${5:-$NDM_INSTALL_REPORT_FILE}"
     local report_dir=""
 
-    installed_version="$(ndm_get_installed_version 2>/dev/null || true)"
-    report_dir="$(dirname "$NDM_INSTALL_REPORT_FILE")"
-
+    report_dir="$(dirname "$report_file")"
     mkdir -p "$report_dir"
 
-    {
-        printf 'NVIDIA Driver Manager Installation Report\n'
-        printf '=========================================\n\n'
-        printf 'Date:              %s\n' "$(date '+%Y-%m-%d %H:%M:%S %Z')"
-        printf 'Previous Driver:   %s\n' "$previous_version"
-        printf 'Installed Driver:  %s\n' "${installed_version:-unknown}"
-        printf '\n'
-        printf 'DKMS\n'
-        printf '----\n'
+    ndm_format_install_report \
+        "$previous_version" \
+        "$installed_version" \
+        "$result" \
+        "$reboot" \
+        > "$report_file"
 
-        if ndm_dkms_nvidia_registered; then
-            ndm_dkms_nvidia_status
-        else
-            printf 'No NVIDIA DKMS registrations found.\n'
-        fi
+    printf '%s\n' "$report_file"
+}
 
-        printf '\n'
-        printf 'Secure Boot\n'
-        printf '-----------\n'
-        if [[ -f "${NDM_MOK_KEY:-/var/lib/dkms/MOK.key}" &&
-              -f "${NDM_MOK_CERT:-/var/lib/dkms/MOK.der}" ]]; then
-            printf 'MOK signing files: found\n'
-            printf 'MOK key:           %s\n' "${NDM_MOK_KEY:-/var/lib/dkms/MOK.key}"
-            printf 'MOK cert:          %s\n' "${NDM_MOK_CERT:-/var/lib/dkms/MOK.der}"
-        else
-            printf 'MOK signing files: missing\n'
-        fi
+ndm_read_install_report()
+{
+    local report_file="${1:-$NDM_INSTALL_REPORT_FILE}"
 
-        printf '\n'
-        printf 'Initramfs\n'
-        printf '---------\n'
-        printf 'Updated:           Yes\n'
-
-        printf '\n'
-        printf 'Result\n'
-        printf '------\n'
-        printf 'Installation completed successfully.\n'
-        printf 'Reboot required.\n'
-    } > "$NDM_INSTALL_REPORT_FILE"
-
-    printf '%s\n' "$NDM_INSTALL_REPORT_FILE"
+    if [[ -r "$report_file" ]]; then
+        cat "$report_file"
+    else
+        printf 'Installation report not found: %s\n' "$report_file"
+    fi
 }

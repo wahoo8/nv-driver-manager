@@ -110,11 +110,7 @@ $INSTALL_LOG
     exit 1
 fi
 
-REPORT_FILE="$(ndm_write_install_report "$INSTALLED_VERSION")"
-SUMMARY="$(ndm_install_summary)
-
-Detailed report:
-$REPORT_FILE"
+SUMMARY="$(ndm_read_install_report)"
 
 ndm_gui_info \
     "NVIDIA Driver Manager" \
