@@ -7,7 +7,7 @@ dd52a1697c93d82175952f2cdc2cff48  usr/libexec/nvidia-driver-manager/commands/che
 ff76f6b46bd3405efa3d418e66f3323d  usr/libexec/nvidia-driver-manager/commands/diagnose.sh
 221193643c21318e0489c07aca4b63fe  usr/libexec/nvidia-driver-manager/commands/download.sh
 6b2ab2f7a601f42dcc024354b4416efb  usr/libexec/nvidia-driver-manager/commands/health.sh
-51259d230e500562b37bad971ee515af  usr/libexec/nvidia-driver-manager/commands/install.sh
+883da36d8eaea1f1b27b94869457b247  usr/libexec/nvidia-driver-manager/commands/install.sh
 582b3fd766764df5d5ca38bc22061ff1  usr/libexec/nvidia-driver-manager/commands/installed-version.sh
 cd0541697939f3fb26ade517010d54a3  usr/libexec/nvidia-driver-manager/commands/report.sh
 0f3dac04aa83bc85d61c5017a174dee0  usr/libexec/nvidia-driver-manager/config.sh
