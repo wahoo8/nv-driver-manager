@@ -40,7 +40,15 @@ chmod 0755 "$INSTALLER_PATH"
 
 INSTALL_OPTIONS="${NDM_NVIDIA_INSTALL_OPTIONS:---silent --dkms --no-questions}"
 read -r -a INSTALL_ARGS <<< "$INSTALL_OPTIONS"
+MOK_KEY="${NDM_MOK_KEY:-/var/lib/dkms/MOK.key}"
+MOK_CERT="${NDM_MOK_CERT:-/var/lib/dkms/MOK.der}"
 
+if [[ -f "$MOK_KEY" && -f "$MOK_CERT" ]]; then
+    INSTALL_ARGS+=(
+        "--module-signing-secret-key=$MOK_KEY"
+        "--module-signing-public-key=$MOK_CERT"
+    )
+fi
 echo "Installer: $INSTALLER_PATH"
 echo "Options:   ${INSTALL_ARGS[*]}"
 echo
@@ -67,14 +75,6 @@ if command -v mokutil >/dev/null 2>&1; then
 else
     echo "  mokutil not found"
 fi
-
-echo
-echo "MOK files:"
-MOK_KEY="${NDM_MOK_KEY:-/var/lib/dkms/MOK.key}"
-MOK_CERT="${NDM_MOK_CERT:-/var/lib/dkms/MOK.der}"
-
-[[ -f "$MOK_KEY" ]] && echo "  key:  $MOK_KEY" || echo "  key missing: $MOK_KEY"
-[[ -f "$MOK_CERT" ]] && echo "  cert: $MOK_CERT" || echo "  cert missing: $MOK_CERT"
 
 echo
 echo "Running NVIDIA installer:"
