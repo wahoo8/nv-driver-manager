@@ -49,6 +49,7 @@ Commands:
   installed-version  Show installed NVIDIA driver version
   version            Show program version
   help               Show this help
+  status             Show status
 EOF
 }
 
@@ -73,7 +74,7 @@ case "${1:-help}" in
     version|--version|-v)
         printf '%s %s\n' "$NDM_NAME" "$NDM_VERSION"
         ;;
-    check|download|install|health|diagnose|report|installed-version)
+    check|download|install|health|diagnose|report|installed-version|status)
         command="$1"
         shift
         run_command "$command" "$@"
