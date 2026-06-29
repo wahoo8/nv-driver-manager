@@ -76,3 +76,61 @@ ndm_gui_notify()
         ndm_gui_info "$title" "$message"
     fi
 }
+
+ndm_gui_install_intro()
+{
+    local latest_version="$1"
+    local installed_version="$2"
+    local installer_path="$3"
+    local kernel_module_type="${4:-open}"
+
+    ndm_gui_question \
+        "NVIDIA Driver Manager" \
+        "Ready to install NVIDIA driver.
+
+Installed version: $installed_version
+New version:       $latest_version
+
+Kernel modules:   $kernel_module_type
+DKMS:             enabled
+Secure Boot:      MOK signing configured
+Initramfs:        rebuild enabled
+
+Installer:
+$installer_path
+
+Continue?"
+}
+
+ndm_gui_install_start()
+{
+    ndm_gui_info \
+        "NVIDIA Driver Manager" \
+        "The NVIDIA installer will now start.
+
+Most options have already been configured.
+
+The installer may still display NVIDIA-specific prompts.
+
+When it finishes, NVIDIA Driver Manager will show a summary."
+}
+
+ndm_gui_install_complete()
+{
+    local summary="$1"
+
+    ndm_gui_info \
+        "NVIDIA Driver Manager - Installation Complete" \
+        "$summary"
+}
+
+ndm_gui_reboot_prompt()
+{
+    ndm_gui_question \
+        "NVIDIA Driver Manager" \
+        "Installation completed successfully.
+
+A reboot is strongly recommended.
+
+Reboot now?"
+}

@@ -63,38 +63,21 @@ fi
 
 INSTALLER_PATH="$(ndm_installer_require_for_version "$LATEST_VERSION")"
 
-MESSAGE="$(cat <<EOF
-NVIDIA Driver Version: $LATEST_VERSION
-Installed Version:     $INSTALLED_VERSION
-Force Install:         $FORCE_INSTALL
-
-Installer:
-$INSTALLER_PATH
-
-Continue with installation?
-EOF
-)"
-
-if ! ndm_gui_question "NVIDIA Driver Manager" "$MESSAGE"; then
+if ! ndm_gui_install_intro \
+    "$LATEST_VERSION" \
+    "$INSTALLED_VERSION" \
+    "$INSTALLER_PATH" \
+    "${NDM_NVIDIA_KERNEL_MODULE_TYPE:-open}"; then
     ndm_log_info "Installation cancelled by user."
     exit 0
 fi
 
 HELPER="/usr/libexec/nvidia-driver-manager/nvinstall.sh"
+INSTALL_LOG="/var/log/nvidia-driver-manager/install.log"
 
 ndm_log_info "Starting privileged installation helper."
 
-INSTALL_LOG="/var/log/nvidia-driver-manager/install.log"
-
-ndm_gui_info \
-    "NVIDIA Driver Manager" \
-    "The NVIDIA installer will now start.
-
-Most installation options have already been configured automatically.
-
-If NVIDIA asks any remaining questions, answer them as appropriate.
-
-When the installer finishes, NVIDIA Driver Manager will verify the installation automatically."
+ndm_gui_install_start
 
 if ! pkexec "$HELPER" "$INSTALLER_PATH"; then
     ndm_gui_error \
@@ -112,15 +95,9 @@ fi
 
 SUMMARY="$(ndm_read_install_report)"
 
-ndm_gui_info \
-    "NVIDIA Driver Manager" \
-    "$SUMMARY"
+ndm_gui_install_complete "$SUMMARY"
 
-if ndm_gui_question \
-    "NVIDIA Driver Manager" \
-    "A reboot is strongly recommended.
-
-Reboot now?"; then
+if ndm_gui_reboot_prompt; then
     pkexec systemctl reboot
 else
     ndm_gui_info \
