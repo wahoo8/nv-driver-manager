@@ -85,6 +85,16 @@ if ! pkexec "$HELPER" "$INSTALLER_PATH"; then
     ndm_fatal "Installation helper failed."
 fi
 
-ndm_gui_info \
+if ndm_gui_question \
     "NVIDIA Driver Manager" \
-    "Installation completed successfully. Reboot is strongly recommended."
+    "Installation completed successfully.
+
+A reboot is strongly recommended.
+
+Reboot now?"; then
+    pkexec systemctl reboot
+else
+    ndm_gui_info \
+        "NVIDIA Driver Manager" \
+        "Please reboot before using the newly installed NVIDIA driver."
+fi
