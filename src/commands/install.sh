@@ -81,8 +81,47 @@ HELPER="/usr/libexec/nvidia-driver-manager/nvinstall.sh"
 
 ndm_log_info "Starting privileged installation helper."
 
-if ! pkexec "$HELPER" "$INSTALLER_PATH"; then
-    ndm_fatal "Installation helper failed."
+INSTALL_LOG="/var/log/nvidia-driver-manager/install.log"
+
+if ndm_gui_available; then
+    (
+        echo "10"
+        echo "# Starting NVIDIA installer..."
+
+        if pkexec "$HELPER" "$INSTALLER_PATH"; then
+            echo "90"
+            echo "# Installation helper completed."
+            sleep 1
+            echo "100"
+        else
+            echo "100"
+            exit 1
+        fi
+    ) | zenity \
+        --progress \
+        --title="NVIDIA Driver Manager" \
+        --text="Installing NVIDIA driver..." \
+        --percentage=0 \
+        --auto-close \
+        --width=500
+
+    RESULT=${PIPESTATUS[0]}
+else
+    pkexec "$HELPER" "$INSTALLER_PATH"
+    RESULT=$?
+fi
+
+if (( RESULT != 0 )); then
+    ndm_gui_error \
+        "NVIDIA Driver Manager" \
+        "Installation failed.
+
+See logs:
+
+$INSTALL_LOG
+
+/var/log/nvidia-installer.log"
+    exit 1
 fi
 
 if ndm_gui_question \
