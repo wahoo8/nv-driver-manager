@@ -103,20 +103,6 @@ See:
 $INSTALL_LOG
 
 /var/log/nvidia-installer.log"
-
-    exit 1
-fi
-
-if (( RESULT != 0 )); then
-    ndm_gui_error \
-        "NVIDIA Driver Manager" \
-        "Installation failed.
-
-See logs:
-
-$INSTALL_LOG
-
-/var/log/nvidia-installer.log"
     exit 1
 fi
 
