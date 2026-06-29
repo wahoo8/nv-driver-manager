@@ -77,19 +77,14 @@ if ! ndm_gui_question "NVIDIA Driver Manager" "$MESSAGE"; then
     exit 0
 fi
 
-HELPER="/usr/libexec/nvidia-driver-manager/offline-install.sh"
+HELPER="/usr/libexec/nvidia-driver-manager/nvinstall.sh"
 
-if [[ ! -x "$HELPER" ]]; then
-    ndm_fatal "Offline installation helper not found: $HELPER"
+ndm_log_info "Starting privileged installation helper."
+
+if ! pkexec "$HELPER" "$INSTALLER_PATH"; then
+    ndm_fatal "Installation helper failed."
 fi
 
-ndm_log_info "Scheduling offline NVIDIA installation."
-
-pkexec /bin/sh -c "
-    set -e
-    mkdir -p /var/lib/nvidia-driver-manager
-    printf '%s\n' '$INSTALLER_PATH' > /var/lib/nvidia-driver-manager/pending-installer
-    systemctl daemon-reload
-    systemctl enable nvidia-driver-manager-install.service
-    systemctl isolate multi-user.target
-"
+ndm_gui_info \
+    "NVIDIA Driver Manager" \
+    "Installation completed successfully. Reboot is strongly recommended."
