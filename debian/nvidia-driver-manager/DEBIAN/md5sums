@@ -26,5 +26,5 @@ a7cc1531275f4daf6553e9e6efeed0a9  usr/libexec/nvidia-driver-manager/nvinstall.sh
 61d7d75200a46c0778f4a93e8db92a36  usr/libexec/nvidia-driver-manager/report.sh
 c8ef4ad30988aa8877953528c0e7e119  usr/libexec/nvidia-driver-manager/system.sh
 349284a34f40795ecc6650caf52777bd  usr/libexec/nvidia-driver-manager/version.sh
-b26ac191e8536f2aad66d6b7ed38934d  usr/share/applications/nvidia-driver-manager.desktop
+c497f83dcc62d55720a2d878dc306960  usr/share/applications/nvidia-driver-manager.desktop
 c610b9486394a4b1fc0b6c158d1128ba  usr/share/doc/nvidia-driver-manager/changelog.gz

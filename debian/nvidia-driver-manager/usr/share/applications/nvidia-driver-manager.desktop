@@ -2,7 +2,7 @@
 Type=Application
 Name=NVIDIA Driver Manager
 Comment=Check, download, and install NVIDIA driver updates
-Exec=nvidia-driver-manager install --force
+Exec=gnome-terminal -- nvidia-driver-manager install --force
 Icon=nvidia-settings
 Terminal=false
 Categories=System;Settings;
