@@ -25,6 +25,28 @@ if [[ ! -f "$INSTALLER_PATH" ]]; then
     exit 1
 fi
 
+echo "Stopping display manager..."
+systemctl stop gdm.service 2>/dev/null || true
+systemctl stop display-manager.service 2>/dev/null || true
+sleep 3
+
+echo "Stopping NVIDIA persistence daemon..."
+systemctl stop nvidia-persistenced.service 2>/dev/null || true
+
+echo "Unloading NVIDIA kernel modules..."
+modprobe -r nvidia_drm 2>/dev/null || true
+modprobe -r nvidia_modeset 2>/dev/null || true
+modprobe -r nvidia_uvm 2>/dev/null || true
+modprobe -r nvidia 2>/dev/null || true
+
+if lsmod | awk '{print $1}' | grep -qE '^nvidia(_drm|_modeset|_uvm)?$'; then
+    echo "ERROR: NVIDIA modules are still loaded:"
+    lsmod | grep '^nvidia' || true
+    echo
+    echo "A process is still using the NVIDIA driver. Installation cannot continue safely."
+    exit 1
+fi
+
 /usr/libexec/nvidia-driver-manager/nvinstall.sh "$INSTALLER_PATH"
 
 rm -f "$PENDING_FILE"
