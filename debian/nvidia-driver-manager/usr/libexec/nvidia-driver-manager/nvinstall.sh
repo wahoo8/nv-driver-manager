@@ -38,10 +38,16 @@ fi
 
 chmod 0755 "$INSTALLER_PATH"
 
-INSTALL_OPTIONS="${NDM_NVIDIA_INSTALL_OPTIONS:---silent --dkms --no-questions}"
-read -r -a INSTALL_ARGS <<< "$INSTALL_OPTIONS"
 MOK_KEY="${NDM_MOK_KEY:-/var/lib/dkms/MOK.key}"
 MOK_CERT="${NDM_MOK_CERT:-/var/lib/dkms/MOK.der}"
+KERNEL_MODULE_TYPE="${NDM_NVIDIA_KERNEL_MODULE_TYPE:-proprietary}"
+
+INSTALL_ARGS=(
+    --dkms
+    --allow-installation-with-running-driver
+    "--kernel-module-type=$KERNEL_MODULE_TYPE"
+    --rebuild-initramfs
+)
 
 if [[ -f "$MOK_KEY" && -f "$MOK_CERT" ]]; then
     INSTALL_ARGS+=(
@@ -49,6 +55,7 @@ if [[ -f "$MOK_KEY" && -f "$MOK_CERT" ]]; then
         "--module-signing-public-key=$MOK_CERT"
     )
 fi
+
 echo "Installer: $INSTALLER_PATH"
 echo "Options:   ${INSTALL_ARGS[*]}"
 echo
