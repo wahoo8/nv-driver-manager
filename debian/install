@@ -5,4 +5,5 @@ src/config/nvidia-driver-manager.conf etc/
 src/systemd/nvidia-driver-manager.service usr/lib/systemd/system/
 src/systemd/nvidia-driver-manager.timer usr/lib/systemd/system/
 src/libexec/nvinstall.sh usr/libexec/nvidia-driver-manager/
-src/libexec/tty-install.sh usr/libexec/nvidia-driver-manager/
+src/libexec/offline-install.sh usr/libexec/nvidia-driver-manager/
+src/systemd/nvidia-driver-manager-install.service usr/lib/systemd/system/
