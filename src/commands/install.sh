@@ -7,6 +7,9 @@ ndm_require_lib metadata
 ndm_require_lib cache
 ndm_require_lib version
 ndm_require_lib network
+ndm_require_lib report
+ndm_require_lib dkms
+ndm_require_lib system
 
 FORCE_INSTALL=0
 
@@ -62,8 +65,8 @@ INSTALLER_PATH="$(ndm_installer_require_for_version "$LATEST_VERSION")"
 
 MESSAGE="$(cat <<EOF
 NVIDIA Driver Version: $LATEST_VERSION
-Installed Version: $INSTALLED_VERSION
-Force Install: $FORCE_INSTALL
+Installed Version:     $INSTALLED_VERSION
+Force Install:         $FORCE_INSTALL
 
 Installer:
 $INSTALLER_PATH
@@ -87,11 +90,11 @@ ndm_gui_info \
     "NVIDIA Driver Manager" \
     "The NVIDIA installer will now start.
 
-Most installation options have been preconfigured.
+Most installation options have already been configured automatically.
 
 If NVIDIA asks any remaining questions, answer them as appropriate.
 
-When the installer finishes, NVIDIA Driver Manager will continue automatically."
+When the installer finishes, NVIDIA Driver Manager will verify the installation automatically."
 
 if ! pkexec "$HELPER" "$INSTALLER_PATH"; then
     ndm_gui_error \
@@ -103,14 +106,19 @@ See:
 $INSTALL_LOG
 
 /var/log/nvidia-installer.log"
+
     exit 1
 fi
 
+SUMMARY="$(ndm_install_summary)"
+
+ndm_gui_info \
+    "NVIDIA Driver Manager" \
+    "$SUMMARY"
+
 if ndm_gui_question \
     "NVIDIA Driver Manager" \
-    "Installation completed successfully.
-
-A reboot is strongly recommended.
+    "A reboot is strongly recommended.
 
 Reboot now?"; then
     pkexec systemctl reboot
@@ -119,3 +127,5 @@ else
         "NVIDIA Driver Manager" \
         "Please reboot before using the newly installed NVIDIA driver."
 fi
+
+exit 0
