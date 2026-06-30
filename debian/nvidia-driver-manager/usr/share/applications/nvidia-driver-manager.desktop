@@ -1,9 +1,11 @@
 [Desktop Entry]
 Type=Application
-Name=NVIDIA Driver Manager
-Comment=Check, download, and install NVIDIA driver updates
+Name=NV Driver Manager
+GenericName=Linux NVIDIA Driver Manager
+Comment=Manages proprietary NVIDIA Linux driver updates
 Exec=gnome-terminal -- nvidia-driver-manager install --force
-Icon=nvidia-settings
+Icon=nv-driver-manager
 Terminal=false
 Categories=System;Settings;
+Keywords=NVIDIA;Driver;DKMS;Linux;
 StartupNotify=true

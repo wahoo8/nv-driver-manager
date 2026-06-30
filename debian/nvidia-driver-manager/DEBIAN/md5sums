@@ -26,5 +26,15 @@ cebd433ff48197be95ae12472b6f896c  usr/libexec/nvidia-driver-manager/logging.sh
 61d7d75200a46c0778f4a93e8db92a36  usr/libexec/nvidia-driver-manager/report.sh
 c8ef4ad30988aa8877953528c0e7e119  usr/libexec/nvidia-driver-manager/system.sh
 349284a34f40795ecc6650caf52777bd  usr/libexec/nvidia-driver-manager/version.sh
-c497f83dcc62d55720a2d878dc306960  usr/share/applications/nvidia-driver-manager.desktop
-c610b9486394a4b1fc0b6c158d1128ba  usr/share/doc/nvidia-driver-manager/changelog.gz
+6f2b58c64e7808079ccb27be1b772b62  usr/share/applications/nvidia-driver-manager.desktop
+f20947078169e70ec869607106d51f32  usr/share/doc/nvidia-driver-manager/changelog.gz
+7a216056481d91ed86602694d61fb70f  usr/share/icons/hicolor/128x128/apps/nv-driver-manager.png
+deaf99f0088f566f9f49c24bd6249235  usr/share/icons/hicolor/16x16/apps/nv-driver-manager.png
+9a9f687ff175f62e4259ad4f9923b470  usr/share/icons/hicolor/22x22/apps/nv-driver-manager.png
+99b9d2eba7d5d0f233ad96f233ed8bed  usr/share/icons/hicolor/24x24/apps/nv-driver-manager.png
+6c35a676f01b94813d4ae2bdd4d76670  usr/share/icons/hicolor/256x256/apps/nv-driver-manager.png
+7d5aef92803d5e49e90141dbe5b66914  usr/share/icons/hicolor/32x32/apps/nv-driver-manager.png
+21cd0ff47562c62f19957ca0afed8a32  usr/share/icons/hicolor/48x48/apps/nv-driver-manager.png
+e12b755f2a6cee7d60974a58e5cd8998  usr/share/icons/hicolor/512x512/apps/nv-driver-manager.png
+dfc1b160b86fb7d7194d4fd3fc287306  usr/share/icons/hicolor/64x64/apps/nv-driver-manager.png
+1e724445fc31dadc6513e3e8fe651d6f  usr/share/icons/hicolor/scalable/apps/nv-driver-manager.svg
