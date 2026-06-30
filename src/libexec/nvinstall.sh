@@ -151,6 +151,20 @@ fi
 
 ndm_log "NVIDIA installer completed successfully."
 
+NVIDIA_DKMS_VERSION="$(ndm_driver_version)"
+
+ndm_log "Installing NVIDIA DKMS $NVIDIA_DKMS_VERSION for all installed kernels."
+
+if declare -F ndm_dkms_build_all_kernels >/dev/null 2>&1; then
+    if ndm_dkms_build_all_kernels "$NVIDIA_DKMS_VERSION" >> "$LOG_FILE" 2>&1; then
+        ndm_log "NVIDIA DKMS modules installed for all installed kernels."
+    else
+        ndm_fail "Failed to install NVIDIA DKMS modules for all installed kernels."
+    fi
+else
+    ndm_fail "DKMS helper function not available: ndm_dkms_build_all_kernels"
+fi
+
 ndm_log "Fixing NVIDIA DKMS pahole.sh permissions after installer."
 find /var/lib/dkms/nvidia \
     -type f \
