@@ -1,9 +1,9 @@
 # Changelog
 
-## 0.1.0
+## 1.0.0
 
-Initial project skeleton
+Initial release
 
 - Repository created
-- Debian packaging started
+- Debian packaging completed
 - Project documentation

@@ -6,3 +6,13 @@ src/systemd/nvidia-driver-manager.service usr/lib/systemd/system/
 src/systemd/nvidia-driver-manager.timer usr/lib/systemd/system/
 src/libexec/nvinstall.sh usr/libexec/nvidia-driver-manager/
 src/applications/nvidia-driver-manager.desktop usr/share/applications/
+icons/hicolor/16x16/apps/nv-driver-manager.png usr/share/icons/hicolor/16x16/apps/
+icons/hicolor/22x22/apps/nv-driver-manager.png usr/share/icons/hicolor/22x22/apps/
+icons/hicolor/24x24/apps/nv-driver-manager.png usr/share/icons/hicolor/24x24/apps/
+icons/hicolor/32x32/apps/nv-driver-manager.png usr/share/icons/hicolor/32x32/apps/
+icons/hicolor/48x48/apps/nv-driver-manager.png usr/share/icons/hicolor/48x48/apps/
+icons/hicolor/64x64/apps/nv-driver-manager.png usr/share/icons/hicolor/64x64/apps/
+icons/hicolor/128x128/apps/nv-driver-manager.png usr/share/icons/hicolor/128x128/apps/
+icons/hicolor/256x256/apps/nv-driver-manager.png usr/share/icons/hicolor/256x256/apps/
+icons/hicolor/512x512/apps/nv-driver-manager.png usr/share/icons/hicolor/512x512/apps/
+icons/scalable/nv-driver-manager.svg usr/share/icons/hicolor/scalable/apps/
