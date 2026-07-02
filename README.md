@@ -28,9 +28,9 @@ official NVIDIA installer instead of Debian-packaged drivers.
 
 ## Current Status
 
-Development Version 0.1.0
+Development Version 1.0.1
 
-This repository is currently under active development.
+Initial build works.  Recently added dependecies.
 
 ## Requirements
 
@@ -41,6 +41,8 @@ Systemd
 DKMS
 
 Official NVIDIA .run installer
+
+Installing from .deb file, please run apt-get install --fix-broken to install dependencies.
 
 ## Building
 
