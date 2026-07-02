@@ -9,4 +9,18 @@ Rules-Requires-Root: no
 Package: nvidia-driver-manager
 Architecture: all
 Depends: ${misc:Depends}
+ bash,
+ curl,
+ dkms,
+ kmod,
+ libxml2-utils,
+ mokutil,
+ policykit-1,
+ procps,
+ sed,
+ systemd,
+ util-linux,
+ build-essential,
+ perl,
+ zenity
 Description: NVidia Driver automatic updates.
