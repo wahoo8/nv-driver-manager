@@ -3,6 +3,7 @@ Version: 1.0.0
 Architecture: all
 Maintainer: Brian Hallett <wahoo8@live.com>
 Installed-Size: 189
+Depends: bash, curl, dkms, kmod, libxml2-utils, mokutil, pkexec, polkitd, procps, sed, systemd, util-linux, build-essential, perl, zenity
 Section: admin
 Priority: optional
 Description: NVidia Driver automatic updates.
