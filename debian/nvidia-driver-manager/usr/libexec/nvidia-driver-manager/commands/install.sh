@@ -74,35 +74,34 @@ fi
 
 HELPER="/usr/libexec/nvidia-driver-manager/nvinstall.sh"
 INSTALL_LOG="/var/log/nvidia-driver-manager/install.log"
+REPORT_FILE="/var/log/nvidia-driver-manager/install-report.txt"
 
 ndm_log_info "Starting privileged installation helper."
 
 ndm_gui_install_start
 
-if ! pkexec "$HELPER" "$INSTALLER_PATH"; then
-    ndm_gui_error \
-        "NVIDIA Driver Manager" \
-        "Installation failed.
-
-See:
-
-$INSTALL_LOG
-
-/var/log/nvidia-installer.log"
-
+if ! pkexec "$HELPER" "$INSTALLER_PATH" "$LATEST_VERSION"; then
+    printf '\n'
+    printf 'NV Driver Manager installation failed.\n'
+    printf '\n'
+    printf 'See:\n'
+    printf '  %s\n' "$INSTALL_LOG"
+    printf '  /var/log/nvidia-installer.log\n'
     exit 1
 fi
 
-SUMMARY="$(ndm_read_install_report)"
-
-ndm_gui_install_complete "$SUMMARY"
-
-if ndm_gui_reboot_prompt; then
-    pkexec systemctl reboot
-else
-    ndm_gui_info \
-        "NVIDIA Driver Manager" \
-        "Please reboot before using the newly installed NVIDIA driver."
-fi
+printf '\n'
+printf 'NV Driver Manager installation completed.\n'
+printf '\n'
+printf 'Report:\n'
+printf '  %s\n' "$REPORT_FILE"
+printf '\n'
+printf 'Logs:\n'
+printf '  %s\n' "$INSTALL_LOG"
+printf '  /var/log/nvidia-installer.log\n'
+printf '\n'
+printf 'A reboot is strongly recommended.\n'
+printf 'Run:\n'
+printf '  sudo reboot\n'
 
 exit 0

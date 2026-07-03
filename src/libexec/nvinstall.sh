@@ -80,6 +80,7 @@ if [[ -r "$LIB_DIR/system.sh" ]]; then
 fi
 
 INSTALLER_PATH="${1:-}"
+TARGET_VERSION="${2:-unknown}"
 
 if [[ -z "$INSTALLER_PATH" ]]; then
     ndm_fail "No installer path supplied."
@@ -102,7 +103,8 @@ INSTALL_ARGS=(
     --allow-installation-with-running-driver
     --no-x-check
     "--kernel-module-type=$KERNEL_MODULE_TYPE"
-    --rebuild-initramfs
+    --no-rebuild-initramfs
+    --
 )
 
 if [[ -f "$MOK_KEY" && -f "$MOK_CERT" ]]; then
@@ -157,7 +159,7 @@ fi
 
 ndm_log "NVIDIA installer completed successfully."
 
-NVIDIA_DKMS_VERSION="$LATEST_VERSION"
+NVIDIA_DKMS_VERSION="$TARGET_VERSION"
 
 ndm_log "Installing NVIDIA DKMS $NVIDIA_DKMS_VERSION for all installed kernels."
 ndm_status "Building NVIDIA driver for all installed kernels..."
@@ -211,19 +213,16 @@ fi
 INSTALLED_VERSION="$(ndm_driver_version)"
 
 if command -v flatpak >/dev/null 2>&1; then
-    ndm_log "Flatpak detected."
-
-    if ndm_gui_question \
-        "NV Driver Manager" \
-        "Flatpak is installed.
-
-Update Flatpak runtimes now?"; then
-ndm_status "Updating Flatpak runtimes..."
-        flatpak update -y
-
+    ndm_status "Updating Flatpak runtimes..."
+    if flatpak update -y >> "$LOG_FILE" 2>&1; then
         ndm_log "Flatpak update completed."
+    else
+        ndm_log "Flatpak update failed or was cancelled."
     fi
+else
+    ndm_log "Flatpak not installed; skipping Flatpak runtime update."
 fi
+
 ndm_status "Writing installation report..."
 ndm_write_install_report \
     "$PREVIOUS_VERSION" \

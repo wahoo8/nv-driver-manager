@@ -13,6 +13,12 @@ REPORT_FILE="${LOG_DIR}/install-report.txt"
 mkdir -p "$LOG_DIR"
 : > "$LOG_FILE"
 
+ndm_status()
+{
+    printf '\n[NV Driver Manager] %s\n' "$*"
+    ndm_log "$*"
+}
+
 ndm_log()
 {
     printf '[%(%Y-%m-%d %H:%M:%S)T] %s\n' -1 "$*" >> "$LOG_FILE"
@@ -74,6 +80,7 @@ if [[ -r "$LIB_DIR/system.sh" ]]; then
 fi
 
 INSTALLER_PATH="${1:-}"
+TARGET_VERSION="${2:-unknown}"
 
 if [[ -z "$INSTALLER_PATH" ]]; then
     ndm_fail "No installer path supplied."
@@ -96,7 +103,8 @@ INSTALL_ARGS=(
     --allow-installation-with-running-driver
     --no-x-check
     "--kernel-module-type=$KERNEL_MODULE_TYPE"
-    --rebuild-initramfs
+    --no-rebuild-initramfs
+    --
 )
 
 if [[ -f "$MOK_KEY" && -f "$MOK_CERT" ]]; then
@@ -151,9 +159,10 @@ fi
 
 ndm_log "NVIDIA installer completed successfully."
 
-NVIDIA_DKMS_VERSION="$(ndm_driver_version)"
+NVIDIA_DKMS_VERSION="$TARGET_VERSION"
 
 ndm_log "Installing NVIDIA DKMS $NVIDIA_DKMS_VERSION for all installed kernels."
+ndm_status "Building NVIDIA driver for all installed kernels..."
 
 if declare -F ndm_dkms_build_all_kernels >/dev/null 2>&1; then
     if ndm_dkms_build_all_kernels "$NVIDIA_DKMS_VERSION" >> "$LOG_FILE" 2>&1; then
@@ -186,6 +195,7 @@ else
 fi
 
 ndm_log "Updating initramfs for all kernels."
+ndm_status "Updating initramfs..."
 if update-initramfs -u -k all >> "$LOG_FILE" 2>&1; then
     ndm_log "initramfs update completed successfully."
 else
@@ -202,6 +212,18 @@ fi
 
 INSTALLED_VERSION="$(ndm_driver_version)"
 
+if command -v flatpak >/dev/null 2>&1; then
+    ndm_status "Updating Flatpak runtimes..."
+    if flatpak update -y >> "$LOG_FILE" 2>&1; then
+        ndm_log "Flatpak update completed."
+    else
+        ndm_log "Flatpak update failed or was cancelled."
+    fi
+else
+    ndm_log "Flatpak not installed; skipping Flatpak runtime update."
+fi
+
+ndm_status "Writing installation report..."
 ndm_write_install_report \
     "$PREVIOUS_VERSION" \
     "$INSTALLED_VERSION" \
@@ -211,6 +233,7 @@ ndm_write_install_report \
 
 ndm_log "Installation report written: $REPORT_FILE"
 ndm_log "Installation helper completed successfully."
+ndm_status "Installation completed successfully."
 ndm_history "SUCCESS | $PREVIOUS_VERSION -> $INSTALLED_VERSION | installer=$INSTALLER_PATH"
 
 exit 0
