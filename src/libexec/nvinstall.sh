@@ -236,4 +236,10 @@ ndm_log "Installation helper completed successfully."
 ndm_status "Installation completed successfully."
 ndm_history "SUCCESS | $PREVIOUS_VERSION -> $INSTALLED_VERSION | installer=$INSTALLER_PATH"
 
+if [[ "${NDM_AUTO_REBOOT:-yes}" == "yes" ]]; then
+    ndm_status "System rebooting in ${NDM_REBOOT_DELAY:-10} seconds..."
+    sleep "${NDM_REBOOT_DELAY:-10}"
+    systemctl reboot
+fi
+
 exit 0

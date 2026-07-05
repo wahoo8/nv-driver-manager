@@ -11,6 +11,10 @@ NVIDIA's official `.run` installer while integrating with DKMS and Secure Boot.
 The project is specifically designed for Debian Trixie systems using the
 official NVIDIA installer instead of Debian-packaged drivers.
 
+## Configuration File
+
+Update your configuration preferences in /etc/nvidia-driver-manager.conf
+
 ## Features
 
 - Weekly automatic update checks
@@ -28,7 +32,7 @@ official NVIDIA installer instead of Debian-packaged drivers.
 
 ## Current Status
 
-Development Version 1.0.1
+Development Version 1.0.4
 
 Initial build works.  Recently added dependecies.
 

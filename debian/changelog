@@ -1,6 +1,6 @@
-nvidia-driver-manager (1.0.2) stable; urgency=medium
+nvidia-driver-manager (1.0.4) stable; urgency=medium
 
-  * Initial release.
+  * Initial release small additions.
 
- -- Brian Hallett <wahoo8@live.com>  Sat, 27 Jun 2026 12:00:00 +0000
+ -- Brian Hallett <wahoo8@live.com>  Sun, 05 Jul 2026 12:00:00 +0000
  
